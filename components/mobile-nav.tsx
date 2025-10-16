@@ -60,7 +60,7 @@ export function MobileNav({ toggleMusic, playing }: MobileNavProps) {
           <div className="p-6 overflow-auto">
             {/* Header */}
             <div className="flex items-center justify-between gap-2 my-6">
-              <h4 className="text-xl font-medium">Aditya Domle</h4>
+              <h4 className="text-xl font-medium">Zeeshan Hussain</h4>
               <div className="flex items-center justify-center gap-4">
                 {/* Music Button */}
                 <Button

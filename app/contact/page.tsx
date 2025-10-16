@@ -2,7 +2,7 @@ import { PageHeader, PageHeaderHeading } from '@/components/page-header';
 import Pager from '@/components/pager';
 import ContactForm from './ContactForm';
 
-const ContactPage = async () => {
+const ContactPage = () => {
   return (
     <>
       <PageHeader>
@@ -13,7 +13,7 @@ const ContactPage = async () => {
       </PageHeader>
 
       <div className="mt-4">
-        <ContactForm /> 
+        <ContactForm />
       </div>
 
       <Pager
@@ -25,4 +25,5 @@ const ContactPage = async () => {
     </>
   );
 };
+
 export default ContactPage;

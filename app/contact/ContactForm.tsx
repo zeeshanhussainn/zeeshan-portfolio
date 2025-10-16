@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -7,133 +8,131 @@ import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { sendMessageServerAction } from '../actions/sendMailServerAction';
 
-const labelWithRequiredStar = ({ label }: { label: string }) => {
-  return (
-    <Label htmlFor={label.toLowerCase()}>
-      <span className="flex">
-        <span>{label}</span>
-        <span className="text-red-500">*</span>
-      </span>
-    </Label>
-  );
-};
+// Define the type of state returned by sendMessageServerAction
+type ContactFormState =
+  | { success: string }
+  | { error: string }
+  | { fullnameError: string }
+  | { emailError: string }
+  | { messageError: string };
+
+const labelWithRequiredStar = ({ label }: { label: string }) => (
+  <Label htmlFor={label.toLowerCase()}>
+    <span className="flex">
+      <span>{label}</span>
+      <span className="text-red-500">*</span>
+    </span>
+  </Label>
+);
 
 const ContactForm = () => {
-  const [state, action, isPending] = useActionState(
-    sendMessageServerAction,
-    null
-  );
+  // Specify state type for useActionState
+const [state, action, isPending] = useActionState<
+  ContactFormState | null,
+  FormData
+>(sendMessageServerAction, null);
   const [formData, setFormData] = useState({
     fullname: '',
     email: '',
     message: '',
   });
 
+  // Handle success messages
   useEffect(() => {
-    if (state?.success) {
+    if (state && 'success' in state) {
       toast.success(state.success);
       setFormData({ fullname: '', email: '', message: '' });
     }
-  }, [state?.success]);
+  }, [state]);
 
+  // Handle errors
   useEffect(() => {
-    if (state?.error) {
+    if (state && 'error' in state) {
       toast.error(state.error);
     }
-  }, [state?.error]);
+  }, [state]);
+
   return (
     <form action={action} className="space-y-6">
-      <div className="space-y-4">
+      {/* Name */}
+      <div className="space-y-2">
         {labelWithRequiredStar({ label: 'Name' })}
-        <div className="space-y-1">
-          <Input
-            type="text"
-            // required
-            id="name"
-            placeholder="Your name, your fame"
-            className="px-2 py-6"
-            name="fullname"
-            value={formData.fullname}
-            onChange={(e) =>
-              setFormData({ ...formData, fullname: e.target.value })
-            }
-          />
-          {state?.fullnameError && (
-            <span className="text-sm text-red-500">{state.fullnameError}</span>
-          )}
-        </div>
-      </div>
-      <div className="space-y-4">
-        {labelWithRequiredStar({ label: 'Email' })}
-        <div className="flex flex-col space-y-1">
-          <Input
-            type="text" // yes text
-            // required
-            id="email"
-            placeholder="Where can I reach you back?"
-            className="px-2 py-6"
-            name="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-          />
-          <span className="text-sm text-muted-foreground">
-            Temporary emails are also accepted, unless you wish to hear back 😉
-          </span>
-          {state?.emailError && (
-            <span className="text-sm text-red-500">{state.emailError}</span>
-          )}
-        </div>
-      </div>
-      <div className="space-y-4">
-        {labelWithRequiredStar({ label: 'Message' })}
-        <div className="space-y-1">
-          <Textarea
-            // required
-            id="message"
-            placeholder="Your words, my inbox."
-            className="px-2 py-4"
-            name="message"
-            value={formData.message}
-            onChange={(e) =>
-              setFormData({ ...formData, message: e.target.value })
-            }
-          />
-          {state?.messageError && (
-            <span className="text-sm text-red-500">{state.messageError}</span>
-          )}
-        </div>
+        <Input
+          type="text"
+          id="name"
+          placeholder="Your name, your fame"
+          name="fullname"
+          value={formData.fullname}
+          onChange={(e) =>
+            setFormData({ ...formData, fullname: e.target.value })
+          }
+        />
+        {state && 'fullnameError' in state && (
+          <span className="text-sm text-red-500">{state.fullnameError}</span>
+        )}
       </div>
 
-      <div className="space-y-4">
+      {/* Email */}
+      <div className="space-y-2">
+        {labelWithRequiredStar({ label: 'Email' })}
+        <Input
+          type="text"
+          id="email"
+          placeholder="Where can I reach you back?"
+          name="email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+        <span className="text-sm text-muted-foreground">
+          Temporary emails are also accepted, unless you wish to hear back 😉
+        </span>
+        {state && 'emailError' in state && (
+          <span className="text-sm text-red-500">{state.emailError}</span>
+        )}
+      </div>
+
+      {/* Message */}
+      <div className="space-y-2">
+        {labelWithRequiredStar({ label: 'Message' })}
+        <Textarea
+          id="message"
+          placeholder="Your words, my inbox."
+          name="message"
+          value={formData.message}
+          onChange={(e) =>
+            setFormData({ ...formData, message: e.target.value })
+          }
+        />
+        {state && 'messageError' in state && (
+          <span className="text-sm text-red-500">{state.messageError}</span>
+        )}
+      </div>
+
+      {/* Buttons */}
+      <div className="flex flex-col space-y-4">
         <Button
           type="submit"
-          className="w-full px-8 py-6 cursor-pointer"
           size="lg"
-          variant="default"
+          className="w-full py-4"
           disabled={isPending}
         >
-          {isPending ? 'Transporting your message to my inbox... 📨' : 'Submit'}
+          {isPending
+            ? 'Transporting your message to my inbox... 📨'
+            : 'Submit'}
         </Button>
 
         <Button
           type="reset"
-          className="w-full px-8 py-6 cursor-pointer"
-          size="lg"
           variant="outline"
-          onClick={() =>
-            setFormData({
-              fullname: '',
-              email: '',
-              message: '',
-            })
-          }
-        > 
+          size="lg"
+          className="w-full py-4"
+          onClick={() => setFormData({ fullname: '', email: '', message: '' })}
+        >
           Reset
         </Button>
       </div>
     </form>
   );
 };
+
 export default ContactForm;

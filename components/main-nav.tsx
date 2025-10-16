@@ -19,6 +19,7 @@ export function MainNav() {
           {siteConfig.name}
         </span>
       </Link>
+
       <nav className="flex items-center gap-4 text-sm xl:gap-6">
         <Link
           href="/"
@@ -34,7 +35,7 @@ export function MainNav() {
 
         <Link
           target="_blank"
-          href="https://aadi.is-a.dev"
+          href="https://zeeshan-portfolio-livid.vercel.app/projects"
           className={cn(
             "transition-colors hover:text-foreground/80 flex gap-1",
             pathname?.startsWith("/blog")
@@ -45,9 +46,11 @@ export function MainNav() {
           Blog <ExternalLink className="size-3" />
         </Link>
 
+        {/* Updated Resume link */}
         <Link
-          href={siteConfig.links.resume}
+          href="/Zeeshan_Hussain_Resume.pdf"
           target="_blank"
+          rel="noopener noreferrer"
           className="flex gap-1"
         >
           Resume <ExternalLink className="size-3" />

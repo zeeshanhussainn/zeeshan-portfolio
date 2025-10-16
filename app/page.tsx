@@ -18,23 +18,44 @@ const IntroductionPage = async () => {
         <PageHeaderHeading className="mt-2 text-muted-foreground">
           A coder by day, problem-solver by night!
         </PageHeaderHeading>
+
         <PageHeaderDescription>
-         I am a Software Developer at Zen4Tech Solution, specializing in Full Stack Web and Mobile Development. I design and deliver scalable, robust, and user-centric digital solutions leveraging technologies such as React.js, React Native, Node.js, Express.js, and MongoDB.
-
-At Zen4Tech, I have contributed to end-to-end projects, ranging from corporate websites to complex commercial platforms, managing frontend and backend development, payment gateway integrations, API design, and deployment pipelines.
-
-I am passionate about creating high-performance applications that combine clean, maintainable code, responsive design, and solid backend architecture, ensuring both functionality and an exceptional user experience.
+          I am a Software Developer at Zen4Tech Solution, specializing in Full
+          Stack Web and Mobile Development. I design and deliver scalable,
+          robust, and user-centric digital solutions leveraging technologies
+          such as React.js, React Native, Node.js, Express.js, and MongoDB.
+          <br />
+          <br />
+          At Zen4Tech, I have contributed to end-to-end projects, ranging from
+          corporate websites to complex commercial platforms handling frontend
+          and backend development, payment gateway integrations, API design,
+          and deployment pipelines.
+          <br />
+          <br />
+          I am passionate about creating high-performance applications that
+          combine clean, maintainable code, responsive design, and solid
+          backend architecture, ensuring both functionality and an exceptional
+          user experience.
         </PageHeaderDescription>
+
         <PageActions>
-          <Button asChild size="sm" className="rounded-md">
-            <Link href={siteConfig.links.resume} target="_blank">
-              Get Resume
-              <ExternalLink className="size-3" strokeWidth={2} />
-            </Link>
-          </Button>
+          {/* Resume Button */}
+<Button asChild size="sm" className="rounded-md">
+  <Link
+    href="/Zeeshan_Hussain_Resume.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Open resume (PDF)"
+  >
+    Get Resume
+    <ExternalLink size={16} className="ml-2 inline-block" strokeWidth={2} />
+  </Link>
+</Button>
+
+          {/* Email Button */}
           <Button asChild size="sm" variant="ghost" className="rounded-md">
             <Link href={siteConfig.links.email}>
-              <Mail className="size-4" />
+              <Mail size={16} className="mr-2 inline-block" />
               Send Mail
             </Link>
           </Button>
@@ -50,4 +71,6 @@ I am passionate about creating high-performance applications that combine clean,
     </>
   );
 };
+
 export default IntroductionPage;
+

@@ -1,11 +1,11 @@
 "use server";
 
-import connectToDatabase from "@/lib/database";
+// import connectToDatabase from "@/lib/database";
 import LoveCount from "@/model/loveCount.model";
 
-export async function getLoveCountServerAction() {
+export async function getLoveCountAction() {
   try {
-    await connectToDatabase();
+    // await connectToDatabase();
     const loveDoc = await LoveCount.findOne({});
     return {
       success: true,
@@ -21,7 +21,7 @@ export async function getLoveCountServerAction() {
 
 export async function setLoveCountServerAction() {
   try {
-    await connectToDatabase();
+    // await connectToDatabase();
     const loveCount = await LoveCount.findOneAndUpdate(
       {},
       { $inc: { count: 1 } },

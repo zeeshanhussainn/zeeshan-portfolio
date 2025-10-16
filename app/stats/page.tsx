@@ -5,8 +5,6 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header";
-import { getViewsServerAction } from "../actions/getAndSetViewsServerAction";
-import { getLoveCountServerAction } from "../actions/getAndSetLoveCountServerAction";
 import LoveButtonComponent from "./LoveButtonComponent";
 import { getGitHubStatsServerAction } from "../actions/getGitHubStatsServerAction";
 import GitHubGraphs from "./GitHubGraphs";
@@ -34,6 +32,15 @@ const StatCard = ({
     </div>
   </div>
 );
+
+// Dummy placeholder functions
+async function getViewsServerAction() {
+  return { success: true, message: 324 }; 
+}
+
+async function getLoveCountServerAction() {
+  return { success: true, count: 567 }; 
+}
 
 const Stats = async () => {
   const views = await getViewsServerAction();
@@ -79,87 +86,35 @@ const Stats = async () => {
       </PageHeader>
 
       <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
+        {/* Total Views Card */}
         <div className="relative flex flex-col p-8 overflow-hidden transition-all duration-300 border shadow-sm group bg-card/50 backdrop-blur-sm text-card-foreground rounded-xl border-border/40 hover:border-border/80 hover:shadow-md">
           <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-br from-primary/5 to-transparent group-hover:opacity-100"></div>
-
           <div className="relative z-10 space-y-2">
             <h3 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-primary/70"
-              >
-                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              &nbsp;Total Views
+              Total Views
             </h3>
             <div className="h-[1px] w-full bg-muted/60"></div>
           </div>
-
           <div className="relative z-10 flex flex-col items-center justify-center flex-1 py-6">
-            {views.success === true ? (
-              <p className="text-5xl font-bold text-primary">{views.message}</p>
-            ) : (
-              <p className="text-xl font-bold text-destructive">
-                Failed to fetch views
-              </p>
-            )}
-            {views.success && (
-              <p className="text-sm text-muted-foreground text-center mt-4 max-w-[80%]">
-                Unique page visits since April 2025
-              </p>
-            )}
+            <p className="text-5xl font-bold text-primary">{views.message}</p>
+            <p className="text-sm text-muted-foreground text-center mt-4 max-w-[80%]">
+              Unique page visits
+            </p>
           </div>
         </div>
 
+        {/* Appreciation / Love Count Card */}
         <div className="relative flex flex-col p-8 overflow-hidden transition-all duration-300 border shadow-sm group bg-card/50 backdrop-blur-sm text-card-foreground rounded-xl border-border/40 hover:border-border/80 hover:shadow-md">
           <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-br from-rose-500/5 to-transparent group-hover:opacity-100"></div>
-
           <div className="relative z-10 space-y-2">
             <h3 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-rose-500/70"
-              >
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-              </svg>
-              &nbsp;Appreciation Count
+              Appreciation Count
             </h3>
             <div className="h-[1px] w-full bg-muted/60"></div>
           </div>
-
           <div className="relative z-10 flex flex-col items-center justify-center flex-1 py-4">
-            {loveCount.success === true ? (
-              <>
-                <p
-                  className="py-6 text-5xl font-bold text-rose-500"
-                  id="love-count"
-                >
-                  {loveCount.count}
-                </p>
-                <LoveButtonComponent />
-              </>
-            ) : (
-              <p className="text-xl font-bold text-destructive">
-                Failed to fetch appreciation count
-              </p>
-            )}
+            <p className="py-6 text-5xl font-bold text-rose-500">{loveCount.count}</p>
+            <LoveButtonComponent />
           </div>
         </div>
       </div>
